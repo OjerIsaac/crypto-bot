@@ -9,6 +9,7 @@ import { Credentials } from "../../lib/types";
 export class BotService {
     private readonly credentialsPath: string = join(process.cwd(), "src/shared/credentials/credentials.json");
     private readonly errorLogPath: string = join(process.cwd(), "src/shared/credentials/error.txt");
+    private readonly successLogPath: string = join(process.cwd(), "src/shared/credentials/success.txt");
     constructor() {}
 
     @Cron(CronExpression.EVERY_MINUTE)
@@ -32,20 +33,23 @@ export class BotService {
 
             await page.waitForNavigation({ waitUntil: "domcontentloaded" });
 
-            page.url() === "https://faucetearner.org/faucet.php";
+            if (page.url() === "https://faucetearner.org/faucet.php") {
+                // Click the "Claim Now" button
+                await page.click(".reqbtn.btn.solid_btn");
 
-            const resultMessage = `Login successful for ${email}`;
-
-            console.log(resultMessage);
+                await this.logMessage(`Success log for ${email} - Action completed`, this.successLogPath);
+            } else {
+                await this.logMessage(`Error log for ${email} - Login failed`, this.errorLogPath);
+            }
         } catch (error) {
-            await this.logError(`Error log for ${email} - ${error}`);
+            await this.logMessage(`Error log for ${email} - ${error}`, this.errorLogPath);
         } finally {
             await browser.close();
         }
     }
 
-    private async logError(errorMessage: string): Promise<void> {
-        const message = `${new Date().toLocaleString()}: ${errorMessage}`;
-        appendFileSync(this.errorLogPath, `${message}\n`, "utf-8");
+    private async logMessage(message: string, logFilePath: string): Promise<void> {
+        const logEntry = `${new Date().toLocaleString()}: ${message}\n`;
+        appendFileSync(logFilePath, `${logEntry}`, "utf-8");
     }
 }
