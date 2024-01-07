@@ -4,6 +4,7 @@ import { APP_INTERCEPTOR } from "@nestjs/core";
 import { SentryInterceptor, SentryModule } from "@ntegral/nestjs-sentry";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { SnakeNamingStrategy } from "typeorm-naming-strategies";
+import { ScheduleModule } from "@nestjs/schedule";
 import { AcceptLanguageResolver, HeaderResolver, I18nModule } from "nestjs-i18n";
 import * as path from "path";
 import { BotModule } from "./modules/bot";
@@ -57,6 +58,7 @@ import { BotModule } from "./modules/bot";
             resolvers: [new HeaderResolver(["x-lang"]), AcceptLanguageResolver],
         }),
         BotModule,
+        ScheduleModule.forRoot(),
     ],
     providers: [
         {

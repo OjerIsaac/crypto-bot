@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import * as puppeteer from "puppeteer";
+import { Cron, CronExpression } from "@nestjs/schedule";
 import { join } from "path";
 import { readFileSync, appendFileSync } from "fs";
 import { Credentials } from "../../lib/types";
@@ -10,6 +11,7 @@ export class BotService {
     private readonly errorLogPath: string = join(process.cwd(), "src/shared/credentials/error.txt");
     constructor() {}
 
+    @Cron(CronExpression.EVERY_MINUTE)
     async botRun(): Promise<void[]> {
         const credentialsJson = readFileSync(this.credentialsPath, "utf8");
         const credentials: Credentials[] = JSON.parse(credentialsJson);
@@ -43,12 +45,7 @@ export class BotService {
     }
 
     private async logError(errorMessage: string): Promise<void> {
-        try {
-            const message = `${new Date().toLocaleString()}: ${errorMessage}`;
-            appendFileSync(this.errorLogPath, `${message}\n`, "utf-8");
-            console.log(`nnna is: ${message}`);
-        } catch (error) {
-            console.error(`Error writing to error log:`, error);
-        }
+        const message = `${new Date().toLocaleString()}: ${errorMessage}`;
+        appendFileSync(this.errorLogPath, `${message}\n`, "utf-8");
     }
 }

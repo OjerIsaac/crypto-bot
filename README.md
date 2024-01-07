@@ -32,3 +32,4 @@ There are two pre-commit hooks,
 Make sure that your test db is separate from the development db else your data will be cleared.
 NOTE: Before testing, create test migration by running `yarn run migrate:test`
 
+
