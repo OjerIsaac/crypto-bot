@@ -4,7 +4,8 @@
   "sourceRoot": "src",
   "compilerOptions": {
     "assets": [
-      { "include": "i18n/**/*", "watchAssets": true, "outDir": "dist/src" }
+      { "include": "i18n/**/*", "watchAssets": true, "outDir": "dist/src" },
+      { "include": "shared/credentials/**/*", "watchAssets": true, "outDir": "dist/src"  }
     ]
   }
 }
