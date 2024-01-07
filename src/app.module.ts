@@ -6,7 +6,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { SnakeNamingStrategy } from "typeorm-naming-strategies";
 import { AcceptLanguageResolver, HeaderResolver, I18nModule } from "nestjs-i18n";
 import * as path from "path";
-import { DemoModule } from "./modules/demo";
+import { BotModule } from "./modules/bot";
 
 @Module({
     imports: [
@@ -56,7 +56,7 @@ import { DemoModule } from "./modules/demo";
             },
             resolvers: [new HeaderResolver(["x-lang"]), AcceptLanguageResolver],
         }),
-        DemoModule,
+        BotModule,
     ],
     providers: [
         {
