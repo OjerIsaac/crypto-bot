@@ -23,7 +23,11 @@ export class BotService {
     }
 
     private async loginWithCredentials({ email, password }: Credentials): Promise<void> {
-        const browser = await puppeteer.launch({ headless: true });
+        const browser = await puppeteer.launch({
+            headless: true,
+            executablePath: "/usr/bin/chromium-browser",
+            args: ["--no-sandbox"],
+        });
         const page = await browser.newPage();
 
         try {
