@@ -23,7 +23,7 @@ export class BotService {
     }
 
     private async loginWithCredentials({ email, password }: Credentials): Promise<void> {
-        const browser = await puppeteer.launch({ headless: true });
+        const browser = await puppeteer.launch({ headless: false });
         const page = await browser.newPage();
 
         try {
