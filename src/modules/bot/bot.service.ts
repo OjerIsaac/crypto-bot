@@ -50,6 +50,8 @@ export class BotService {
                 // Introduce a delay (e.g., 10 seconds) to ensure the modal is fully rendered
                 await new Promise((resolve) => setTimeout(resolve, 10000));
 
+                console.log(`Success log for ${email} - Claim action completed`);
+
                 await this.logMessage(`Success log for ${email} - Claim action completed`, this.successLogPath);
             }, 45 * 1000);
 
