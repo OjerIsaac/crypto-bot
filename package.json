@@ -27,7 +27,10 @@
     "migrate:test": "typeorm-ts-node-esm -d data-source_test.ts migration:run",
     "migrate:test:revert": "typeorm-ts-node-esm -d data-source_test.ts migration:revert",
     "new:migration": "cd src/migrations && typeorm-ts-node-esm migration:create",
-    "huskyprepare": "husky install"
+    "huskyprepare": "husky install",
+    "chrome": "yarn path && yarn find",
+    "path": "node -e \"console.log(require('puppeteer').executablePath())\" && echo \"File exists.\" || echo \"File does not exist.\"",
+    "find": "find / -name chrome | grep puppeteer | grep -v node_modules"
   },
   "dependencies": {
     "@nestjs/common": "^10.3.0",
