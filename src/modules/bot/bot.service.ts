@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import * as puppeteer from "puppeteer";
-import { Cron, CronExpression } from "@nestjs/schedule";
+// import { Cron, CronExpression } from "@nestjs/schedule";
 import { join } from "path";
 import { readFileSync, appendFileSync } from "fs";
 import { Credentials } from "../../lib/types";
@@ -12,8 +12,9 @@ export class BotService {
     private readonly successLogPath: string = join(process.cwd(), "src/shared/credentials/success.txt");
     constructor() {}
 
-    @Cron(CronExpression.EVERY_MINUTE)
-    async botRun(): Promise<void[]> {
+    // @Cron(CronExpression.EVERY_MINUTE)
+    async onApplicationBootstrap() {
+        // async botRun(): Promise<void[]> {
         const credentialsJson = readFileSync(this.credentialsPath, "utf8");
         const credentials: Credentials[] = JSON.parse(credentialsJson);
 
@@ -22,7 +23,7 @@ export class BotService {
     }
 
     private async loginWithCredentials({ email, password }: Credentials): Promise<void> {
-        const browser = await puppeteer.launch();
+        const browser = await puppeteer.launch({ headless: true });
         const page = await browser.newPage();
 
         try {
@@ -32,19 +33,35 @@ export class BotService {
             await page.click(".reqbtn.btn-submit.w-100");
 
             await page.waitForNavigation({ waitUntil: "domcontentloaded" });
+            console.log(`Login successful for ${email}`);
 
             if (page.url() === "https://faucetearner.org/faucet.php") {
-                // Click the "Claim Now" button
-                await page.click(".reqbtn.btn.solid_btn");
-
-                await this.logMessage(`Success log for ${email} - Action completed`, this.successLogPath);
+                const h4Text = await page.$eval("h4.text-center.fw-bold.pb-3", (h4) => h4.textContent);
+                console.log(`Fetched h4 text: ${h4Text}`);
             } else {
-                await this.logMessage(`Error log for ${email} - Login failed`, this.errorLogPath);
+                await this.logMessage(`Error log for ${email} - Login failed`, this.successLogPath);
             }
+
+            // Set up an interval to click the "Claim Now" button every 45sec for 12 hours
+            const durationInHours = 36;
+            const intervalId = setInterval(async () => {
+                await page.click("button.m-auto.mt-2.reqbtn.btn.solid_btn.text-white.d-flex.align-items-center");
+
+                // Introduce a delay (e.g., 10 seconds) to ensure the modal is fully rendered
+                await new Promise((resolve) => setTimeout(resolve, 10000));
+
+                await this.logMessage(`Success log for ${email} - Claim action completed`, this.successLogPath);
+            }, 45 * 1000);
+
+            // Wait for the specified duration before closing the loop
+            await new Promise((resolve) => setTimeout(resolve, durationInHours * 60 * 60 * 1000));
+
+            // Clear the interval after the specified waiting period
+            clearInterval(intervalId);
         } catch (error) {
             await this.logMessage(`Error log for ${email} - ${error}`, this.errorLogPath);
         } finally {
-            await browser.close();
+            // await browser.close();
         }
     }
 
