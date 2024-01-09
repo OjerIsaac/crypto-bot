@@ -47,7 +47,7 @@ export class BotService {
             }
 
             // Set up an interval to click the "Claim Now" button every 45sec for 12 hours
-            const durationInHours = 36;
+            const durationInHours = 60;
             const intervalId = setInterval(async () => {
                 await page.click("button.m-auto.mt-2.reqbtn.btn.solid_btn.text-white.d-flex.align-items-center");
 

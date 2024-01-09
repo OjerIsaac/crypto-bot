@@ -107,3 +107,7 @@ dist
 dump.rdb
 
 .Ds_Store
+
+src/shared/credentials/credentials.json
+src/shared/credentials/error.txt
+src/shared/credentials/success.txt
