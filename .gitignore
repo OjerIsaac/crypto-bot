@@ -111,3 +111,4 @@ dump.rdb
 src/shared/credentials/credentials.json
 src/shared/credentials/error.txt
 src/shared/credentials/success.txt
+trash.txt
