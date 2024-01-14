@@ -14,5 +14,8 @@
 
 ### Logs
 - On your env, specify
+- CREDENTIALS_PATH
+- ERROR_PATH
+- SUCCESS_PATH
 
 
