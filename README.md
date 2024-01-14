@@ -1,4 +1,5 @@
 ### CRYPTO BOT
+- A simple crypto bot that automates the process of claiming XRP tokens every minutes
 
 ## Features
 - Completely written in [Typescript](https://typescriptlang.org/)
