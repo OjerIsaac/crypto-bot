@@ -1,5 +1,5 @@
 ### CRYPTO BOT
-- A simple crypto bot that automates the process of claiming XRP tokens every minutes at [Faucetearner] (https://faucetearner.org/)
+- A simple crypto bot that automates the process of claiming XRP tokens every minutes at [Faucetearner](https://faucetearner.org/)
 
 ## Features
 - Completely written in [Typescript](https://typescriptlang.org/)
