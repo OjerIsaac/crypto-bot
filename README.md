@@ -14,8 +14,20 @@
 
 ### Logs
 - On your env, specify
-- CREDENTIALS_PATH
-- ERROR_PATH
-- SUCCESS_PATH
+- CREDENTIALS_PATH: path to json file with login credentials
+``
+    [
+        {
+            "email": "test@mail.com",
+            "password": "password"
+        },
+        {
+            "email": "test2@mail.com",
+            "password": "password"
+        }
+    ]
+``
+- ERROR_PATH: path to a .txt file to log errors
+- SUCCESS_PATH: path to a .txt file to log success
 
 
